@@ -1,6 +1,7 @@
 package br.com.apitestesjunitmockito.services.impl;
 
 import br.com.apitestesjunitmockito.domain.User;
+import br.com.apitestesjunitmockito.exceptions.ObjectNotFoundException;
 import br.com.apitestesjunitmockito.repositories.UserRepository;
 import br.com.apitestesjunitmockito.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         Optional<User> obj = userRepository.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!"));
     }
 }
