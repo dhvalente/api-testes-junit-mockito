@@ -4,5 +4,5 @@ import br.com.apitestesjunitmockito.domain.User;
 
 public interface UserService {
 
-    User findById(Long id);
+    User findById(Integer id);
 }
