@@ -5,10 +5,11 @@ import br.com.apitestesjunitmockito.records.UserRecord;
 import br.com.apitestesjunitmockito.services.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -24,5 +25,20 @@ public class UserResource {
                 user.getId(), user.getName(),
                 user.getEmail(), user.getPassword());
         return ResponseEntity.ok().body(userRecord);
+    }
+    @GetMapping
+    public ResponseEntity<List<UserRecord>> findAll (){
+        List<UserRecord> listRecord = userService.findAll().stream().map(
+                x -> new UserRecord(
+                        x.getId(), x.getName(),
+                        x.getEmail(), x.getPassword())).toList();
+        return ResponseEntity.ok().body(listRecord);
+    }
+
+    @PostMapping
+    public ResponseEntity<UserRecord> create (@RequestBody UserRecord userRecord){
+        User obj = userService.create(userRecord);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj).toUri();
+        return ResponseEntity.created(uri).build();
     }
 }

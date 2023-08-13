@@ -19,5 +19,12 @@ public class GlobalExceptionHandler {
         );
     }
 
+    @ExceptionHandler(DataIntegratyViolationException.class)
+    public ResponseEntity<ExceptionRecord> dataIntegratyViolationException(DataIntegratyViolationException e, HttpServletRequest request){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new ExceptionRecord(LocalDateTime.now(),HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI())
+        );
+    }
+
 
 }
