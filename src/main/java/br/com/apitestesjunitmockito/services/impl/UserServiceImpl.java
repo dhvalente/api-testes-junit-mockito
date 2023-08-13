@@ -17,9 +17,20 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Override
     public User create(UserRecord userRecord) {
         findByEmail(userRecord);
         User user = new User(null , userRecord.name() , userRecord.email(), userRecord.password());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User update(Integer id, UserRecord userRecord) {
+        findByEmail(userRecord);
+        User user = findById(id);
+        user.setName(userRecord.name());
+        user.setEmail(userRecord.email());
+        user.setPassword(userRecord.password());
         return userRepository.save(user);
     }
 
@@ -37,7 +48,7 @@ public class UserServiceImpl implements UserService {
 
     private void findByEmail(UserRecord userRecord){
         Optional<User> user = userRepository.findByEmail(userRecord.email());
-        if(user.isPresent()){
+        if(user.isPresent() && !user.get().getId().equals(userRecord.id())){
             throw new DataIntegratyViolationException("E-mail já cadastrado no sistema.");
         }
     }
