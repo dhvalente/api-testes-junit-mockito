@@ -14,4 +14,6 @@ public interface UserService {
     User create(UserRecord userRecord);
 
     User update(Integer id , UserRecord userRecord);
+
+    void delete(Integer id);
 }

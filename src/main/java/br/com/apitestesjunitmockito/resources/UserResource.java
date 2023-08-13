@@ -47,4 +47,11 @@ public class UserResource {
         User user = userService.update(id,new UserRecord(id, userRecord.name(), userRecord.email(), userRecord.password()));
         return ResponseEntity.ok().body(new UserRecord(id, user.getName(), user.getEmail(), user.getPassword()));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<UserRecord> delete(@PathVariable Integer id){
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
