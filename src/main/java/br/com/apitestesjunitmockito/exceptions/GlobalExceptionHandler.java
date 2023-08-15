@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<ExceptionRecord> addressNotFoundException(ObjectNotFoundException e, HttpServletRequest request){
+    public ResponseEntity<ExceptionRecord> objectNotFoundException(ObjectNotFoundException e, HttpServletRequest request){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new ExceptionRecord(LocalDateTime.now(),HttpStatus.NOT_FOUND.value(), e.getMessage(), request.getRequestURI())
         );
     }
 
     @ExceptionHandler(DataIntegratyViolationException.class)
-    public ResponseEntity<ExceptionRecord> dataIntegratyViolationException(DataIntegratyViolationException e, HttpServletRequest request){
+    public ResponseEntity<ExceptionRecord> dataIntegrityViolationException(DataIntegratyViolationException e, HttpServletRequest request){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new ExceptionRecord(LocalDateTime.now(),HttpStatus.BAD_REQUEST.value(), e.getMessage(), request.getRequestURI())
         );
